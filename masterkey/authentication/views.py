@@ -38,7 +38,6 @@ class UserBasicInfoUpdateApiView(generics.UpdateAPIView):
 
 class UserProfileApiView(generics.RetrieveUpdateAPIView):
     serializer_class = serializers.UserProfileSerializer
-    # parser_classes = (MultiPartParser, FormParser)
     queryset = User.objects.all()
     permission_classes = [IsAuthenticated]
     lookup_field = "id"
@@ -57,10 +56,9 @@ class ChangePasswordApiView(generics.UpdateAPIView):
         serializer = self.get_serializer(data=request.data)
 
         if serializer.is_valid():
-            # Check old password
             if not self.object.check_password(serializer.data.get("old_password")):
                 return Response({"old_password": ["Wrong password."]}, status=status.HTTP_400_BAD_REQUEST)
-            # set_password also hashes the password that the user will get
+            
             self.object.set_password(serializer.data.get("new_password"))
             self.object.save()
             response = {
@@ -101,7 +99,6 @@ class Login(generics.GenericAPIView):
 class AdminLogin(Login):
     serializer_class = serializers.AdminLoginSerializer
     def post(self, request, *args, **kwargs):
-        """ Login system: User and Merchent both. """
         User = get_user_model()
         username = request.data.get('email')
         password = request.data.get('password')
@@ -157,7 +154,6 @@ class PasswordResetConfirmAPIView(generics.CreateAPIView):
 
 
 
-# user_permission branch 
 class UserListAPIView(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = serializers.UserProfileSerializer
