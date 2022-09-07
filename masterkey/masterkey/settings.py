@@ -126,8 +126,7 @@ WSGI_APPLICATION = 'masterkey.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.' + config('DB_ENGINE', 'mysql'),
-        'NAME': 'masterkey',
-        # 'NAME': config('DB_NAME', 'masterkey'),
+        'NAME': config('DB_NAME', 'masterkey'),
         'USER': config('DB_USERNAME', 'root'),
         'PASSWORD': config('DB_PASSWORD', 'root'),
         'HOST': config('DB_HOST', 'localhost'),
